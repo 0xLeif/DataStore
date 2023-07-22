@@ -149,7 +149,9 @@ where StoredData.From == DataLoader.DeviceData,
     open func load() async throws {
         let loadedData: [DeviceData] = try await loader.load()
         
-        try store(data: loadedData)
+        try await MainActor.run {
+            try store(data: loadedData)
+        }
     }
 
     /**
@@ -164,8 +166,10 @@ where StoredData.From == DataLoader.DeviceData,
     */
     open func load(id: LoadedData.ID) async throws {
         let loadedData: DeviceData = try await loader.load(id: id)
-        
-        try store(data: [loadedData])
+
+        try await MainActor.run {
+            try store(data: [loadedData])
+        }
     }
 }
 
