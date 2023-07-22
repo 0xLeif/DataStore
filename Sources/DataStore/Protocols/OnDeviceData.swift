@@ -7,7 +7,7 @@
  Conforming types must provide an initializer that takes in `stored` data of type `StoredValue`.
  */
 public protocol OnDeviceData: Adaptable, Identifiable {
-    associatedtype StoredValue: Adaptable where StoredValue.From == Self
+    associatedtype StoredValue: StorableData where StoredValue.From == Self
 
     /**
      Initializes an `OnDeviceData` instance with stored data of type `StoredValue`.

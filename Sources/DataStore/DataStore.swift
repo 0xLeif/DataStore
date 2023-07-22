@@ -3,8 +3,6 @@ import Cache
 /**
  A generic data store class that facilitates data loading, caching, and storing.
 
- The `DataStore` class takes two type parameters: DataLoader and StoredData. DataLoader is a type that conforms to the DataLoading protocol, responsible for loading data from a data source. StoredData is a type that conforms to the Adaptable and Identifiable protocols, representing the data that will be stored in the data store.
-
  The `DataStore` class is an open class, allowing it to be subclassed and customized based on specific requirements.
 
  The `DataStore` class also conforms to the ConsumingObservableObject and DataStoring protocols. ConsumingObservableObject signifies that the class can be observed for changes, while DataStoring indicates that the class supports data storing.
@@ -18,13 +16,10 @@ import Cache
  - SeeAlso: `Identifiable`
  - SeeAlso: `Cache`
  */
-open class DataStore<
-    DataLoader: DataLoading,
-    StoredData: StorableData
->: ConsumingObservableObject, DataStoring
-where StoredData.From == DataLoader.DeviceData,
-      DataLoader.DeviceData.To == StoredData,
-      StoredData.To == DataLoader.DeviceData {
+open class DataStore<DataLoader: DataLoading>: ConsumingObservableObject, DataStoring
+where DataLoader.DeviceData.StoredValue.From == DataLoader.DeviceData,
+      DataLoader.DeviceData.To == DataLoader.DeviceData.StoredValue,
+      DataLoader.DeviceData.StoredValue.To == DataLoader.DeviceData {
 
     /// A typealias that represents the type of data loaded by the DataLoader.
     public typealias LoadedData = DataLoader.LoadedData
@@ -33,7 +28,7 @@ where StoredData.From == DataLoader.DeviceData,
     public typealias DeviceData = DataLoader.DeviceData
 
     /// A typealias that represents the type of data stored in the data store.
-    public typealias StoredData = StoredData
+    public typealias StoredData = DataLoader.DeviceData.StoredValue
 
     /// The cache instance that stores the loaded data.
     public let cache: Cache<DeviceData.ID, DeviceData>
@@ -51,8 +46,7 @@ where StoredData.From == DataLoader.DeviceData,
      */
     public init(
         initalValues: [DeviceData.ID: DeviceData] = [:],
-        loader: DataLoader,
-        storedType: StoredData.Type = StoredData.self
+        loader: DataLoader
     ) {
         self.cache = Cache(initialValues: initalValues)
         self.loader = loader
