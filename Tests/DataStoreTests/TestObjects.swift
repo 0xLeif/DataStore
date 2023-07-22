@@ -23,7 +23,7 @@ struct TestLoadedData: Identifiable {
 
 // MARK: - TestDeviceData
 
-struct TestDeviceData: Identifiable, Adaptable {
+struct TestDeviceData: OnDeviceData {
     enum DeviceEnum: String, Adaptable {
         case weirdCaseExample
         case inconsistentExample
@@ -42,10 +42,6 @@ struct TestDeviceData: Identifiable, Adaptable {
     var userName: String
     var color: Color
     var enumValue: DeviceEnum
-
-    var adapted: TestStoredData {
-        TestStoredData(from: self)
-    }
 
     init(id: String, userName: String, color: Color, enumValue: DeviceEnum) {
         self.id = id
@@ -79,15 +75,11 @@ struct TestDeviceData: Identifiable, Adaptable {
 
 // MARK: - StoredData
 
-struct TestStoredData: Adaptable, Identifiable {
+struct TestStoredData: StorableData {
     let id: String
     let userName: String
     let color: Color
     let enumValue: TestDeviceData.DeviceEnum
-
-    var adapted: TestDeviceData {
-        TestDeviceData(stored: self)
-    }
 
     init(from: TestDeviceData) {
         id = from.id

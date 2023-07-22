@@ -1,3 +1,4 @@
+#if canImport(Combine)
 import Combine
 
 /// An `ObservableObject` that can consume and observe changes in other `ObservableObject` instances.
@@ -7,6 +8,8 @@ open class ConsumingObservableObject: ObservableObject {
     deinit {
         bag.removeAll()
     }
+
+    public init() { }
 
     /// Consume changes from the specified `ObservableObject` instance.
     ///
@@ -24,3 +27,4 @@ open class ConsumingObservableObject: ObservableObject {
         )
     }
 }
+#endif
