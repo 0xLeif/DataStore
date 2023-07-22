@@ -9,7 +9,7 @@
 ## Features
 
 - **Data Loading**: Easily load data from various sources, such as network requests or local databases, by providing a custom `DataLoading` object.
-- **Caching**: By default, `DataStore` integrates a caching mechanism to enhance data loading performance.
+- **Caching**: By default, `DataStore` integrates a caching mechanism to enhance data loading performance. `DataStore` uses [`Cache`](https://github.com/0xLeif/Cache) as its caching solution.
 - **Flexible Data Retrieval**: Access loaded data via the `fetch()` method or fetch data based on specific criteria using closure-based filtering.
 - **Data Storage**: Store new data objects into the `DataStore` for later retrieval.
 - **Data Deletion**: Remove previously stored data objects from the `DataStore`.
