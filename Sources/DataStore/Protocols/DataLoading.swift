@@ -4,7 +4,7 @@ public protocol DataLoading {
     associatedtype LoadedData: Identifiable
 
     /// The type of device-specific data, which should conform to the `Adaptable` and `Identifiable` protocols, with `From` being the same type as `LoadedData`.
-    associatedtype DeviceData: Adaptable & Identifiable where DeviceData.From == LoadedData
+    associatedtype DeviceData: OnDeviceData where DeviceData.From == LoadedData
 
     /// Loads an array of `LoadedData` objects asynchronously.
     /// - Returns: An array of loaded data.

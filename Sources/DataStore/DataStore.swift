@@ -20,7 +20,7 @@ import Cache
  */
 open class DataStore<
     DataLoader: DataLoading,
-    StoredData: Adaptable & Identifiable
+    StoredData: StorableData
 >: ConsumingObservableObject, DataStoring
 where StoredData.From == DataLoader.DeviceData,
       DataLoader.DeviceData.To == StoredData,
