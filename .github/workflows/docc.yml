@@ -26,7 +26,6 @@ jobs:
             -destination 'generic/platform=iOS';
           $(xcrun --find docc) process-archive \
             transform-for-static-hosting /tmp/docbuild/Build/Products/Debug-iphoneos/DataStore.doccarchive \
-            --hosting-base-path DataStore \
             --output-path docs;
           echo "<script>window.location.href +=
           \"/documentation/datastore\"</script>" > docs/index.html;
