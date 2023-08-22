@@ -13,7 +13,7 @@ public protocol DataLoading {
     /// Loads a single `LoadedData` object with the specified identifier asynchronously.
     /// - Parameter id: The identifier of the data to load.
     /// - Returns: The loaded data.
-    func load(id: LoadedData.ID) async throws -> LoadedData
+    func load(id: DeviceData.ID) async throws -> LoadedData
 }
 
 extension DataLoading {
@@ -27,7 +27,7 @@ extension DataLoading {
     /// Loads a single `DeviceData` object with the specified identifier asynchronously by adapting the loaded `LoadedData` object.
     /// - Parameter id: The identifier of the data to load.
     /// - Returns: The loaded device-specific data.
-    public func load(id: LoadedData.ID) async throws -> DeviceData {
+    public func load(id: DeviceData.ID) async throws -> DeviceData {
         let loadedData: LoadedData = try await load(id: id)
         return DeviceData(from: loadedData)
     }

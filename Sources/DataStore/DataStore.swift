@@ -155,7 +155,7 @@ open class DataStore<DataLoader: DataLoading>: ConsumingObservableObject, DataSt
 
     - Note: This method uses the data loader to asynchronously load the data and then stores it in the data store.
     */
-    open func load(id: LoadedData.ID) async throws {
+    open func load(id: DeviceData.ID) async throws {
         let loadedData: DeviceData = try await loader.load(id: id)
 
         try await MainActor.run {
