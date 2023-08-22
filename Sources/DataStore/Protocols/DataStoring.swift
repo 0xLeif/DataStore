@@ -1,6 +1,6 @@
 /// A protocol for storing and managing data.
 public protocol DataStoring {
-    /// The type of data to be stored, which should conform to the `Adaptable` and `Identifiable` protocols, where `To` is the same type as `DeviceData`.
+    /// The type of data to be stored, which should conform to the `Adaptable` protocol, where `To` is the same type as `DeviceData`.
     associatedtype StoredData: StorableData where StoredData.To == DeviceData
 
     /// The type of device-specific data, which should conform to the `Adaptable` and `Identifiable` protocols, with `From` being the same type as `StoredData` and `To` being the same type as `StoredData`.
