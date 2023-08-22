@@ -16,10 +16,7 @@ import Cache
  - SeeAlso: `Identifiable`
  - SeeAlso: `Cache`
  */
-open class DataStore<DataLoader: DataLoading>: ConsumingObservableObject, DataStoring
-where DataLoader.DeviceData.StoredValue.From == DataLoader.DeviceData,
-      DataLoader.DeviceData.To == DataLoader.DeviceData.StoredValue,
-      DataLoader.DeviceData.StoredValue.To == DataLoader.DeviceData {
+open class DataStore<DataLoader: DataLoading>: ConsumingObservableObject, DataStoring where DataLoader.DeviceData.To == DataLoader.DeviceData.StoredValue {
 
     /// A typealias that represents the type of data loaded by the DataLoader.
     public typealias LoadedData = DataLoader.LoadedData
@@ -31,7 +28,7 @@ where DataLoader.DeviceData.StoredValue.From == DataLoader.DeviceData,
     public typealias StoredData = DataLoader.DeviceData.StoredValue
 
     /// The cache instance that stores the loaded data.
-    public let cache: Cache<DeviceData.ID, DeviceData>
+    open var cache: Cache<DeviceData.ID, DeviceData>
 
     /// An instance of the `DataLoader` responsible for loading data from a data source.
     public let loader: DataLoader
