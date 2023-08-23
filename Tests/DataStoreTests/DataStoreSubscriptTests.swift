@@ -7,7 +7,7 @@ final class DataStoreSubscriptTests: XCTestCase {
 
         try await store.load()
 
-        let values = store.fetch()
+        let values = await store.fetch()
 
         XCTAssertEqual(values.count, 3)
 
@@ -23,7 +23,7 @@ final class DataStoreSubscriptTests: XCTestCase {
 
         try await store.load()
 
-        let values = store.fetch()
+        let values = await store.fetch()
 
         XCTAssertEqual(values.count, 3)
 
@@ -41,7 +41,7 @@ final class DataStoreSubscriptTests: XCTestCase {
 
         try await store.load()
 
-        let values = store.fetch()
+        let values = await store.fetch()
 
         XCTAssertEqual(values.count, 3)
 
@@ -57,7 +57,7 @@ final class DataStoreSubscriptTests: XCTestCase {
 
         try await store.load()
 
-        let values = store.fetch()
+        let values = await store.fetch()
 
         XCTAssertEqual(values.count, 3)
 
@@ -79,7 +79,7 @@ final class DataStoreSubscriptTests: XCTestCase {
 
         try await store.load()
 
-        let values = store.fetch()
+        let values = await store.fetch()
 
         XCTAssertEqual(values.count, 3)
 

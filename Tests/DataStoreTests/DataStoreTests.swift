@@ -8,7 +8,7 @@ final class DataStoreTests: XCTestCase {
 
         try await store.load()
 
-        let values = store.fetch()
+        let values = await store.fetch()
 
         XCTAssertEqual(values.count, 3)
     }
@@ -20,7 +20,7 @@ final class DataStoreTests: XCTestCase {
 
         try await store.load(id: expectedID)
 
-        let value = try store.fetch(id: expectedID)
+        let value = try await store.fetch(id: expectedID)
 
         XCTAssertEqual(value.id, expectedID)
     }
@@ -30,7 +30,7 @@ final class DataStoreTests: XCTestCase {
 
         try await store.load()
 
-        let values = store.fetch { data in
+        let values = await store.fetch { data in
             data.color == Color(red: 0, green: 1, blue: 0)
         }
 
@@ -40,7 +40,7 @@ final class DataStoreTests: XCTestCase {
     func testStoreAndFetch() async throws {
         let store = DataStore(loader: TestDataLoader())
 
-        let values = store.fetch()
+        let values = await store.fetch()
 
         XCTAssertEqual(values.count, 0)
 
@@ -49,7 +49,7 @@ final class DataStoreTests: XCTestCase {
         let expectedColor = Color.green
         let expectedEnumValue = TestDeviceData.DeviceEnum.weirdCaseExample
 
-        try store.store(
+        try await store.store(
             data: [
                 TestDeviceData(
                     id: expectedID,
@@ -60,7 +60,7 @@ final class DataStoreTests: XCTestCase {
             ]
         )
 
-        let value = try store.fetch(id: expectedID)
+        let value = try await store.fetch(id: expectedID)
 
         XCTAssertEqual(value.id, expectedID)
         XCTAssertEqual(value.userName, expectedUserName)
@@ -73,12 +73,14 @@ final class DataStoreTests: XCTestCase {
 
         try await store.load()
 
-        let values = store.fetch()
+        let values = await store.fetch()
 
         XCTAssertEqual(values.count, 3)
 
-        try store.delete(data: values.map(\.id))
+        try await store.delete(data: values.map(\.id))
 
-        XCTAssertEqual(store.fetch().count, 0)
+        let fetchCount = await store.fetch().count
+
+        XCTAssertEqual(fetchCount, 0)
     }
 }
