@@ -63,7 +63,8 @@ open class DataStore<DataLoader: DataLoading>: ConsumingObservableObject, DataSt
 
      - Note: This method iterates through the data and sets each value in the cache using its ID as the key.
      */
-    open func store(data: [DeviceData]) throws {
+    @MainActor
+    open func store(data: [DeviceData]) async throws {
         for datum in data {
             cache.set(value: datum, forKey: datum.id)
         }
@@ -79,7 +80,8 @@ open class DataStore<DataLoader: DataLoading>: ConsumingObservableObject, DataSt
 
      - Note: This method iterates through the IDs and removes each value from the cache.
      */
-    open func delete(data: [DeviceData.ID]) throws {
+    @MainActor
+    open func delete(data: [DeviceData.ID]) async throws {
         for datum in data {
             cache.remove(datum)
         }
@@ -92,7 +94,7 @@ open class DataStore<DataLoader: DataLoading>: ConsumingObservableObject, DataSt
 
      - Note: This method retrieves all the values from the cache and returns them as an array.
      */
-    open func fetch() -> [DeviceData] {
+    open func fetch() async -> [DeviceData] {
         Array(cache.allValues.values)
     }
 
@@ -106,8 +108,8 @@ open class DataStore<DataLoader: DataLoading>: ConsumingObservableObject, DataSt
 
      - Note: This method filters the fetched data using the given filter closure and returns the filtered results.
      */
-    open func fetch(where filter: (DeviceData) -> Bool) -> [DeviceData] {
-        let allValues = fetch()
+    open func fetch(where filter: (DeviceData) -> Bool) async -> [DeviceData] {
+        let allValues = await fetch()
 
         let filteredValues = allValues.filter(filter)
 
@@ -126,7 +128,7 @@ open class DataStore<DataLoader: DataLoading>: ConsumingObservableObject, DataSt
 
      - Note: This method resolves the ID to the corresponding value in the cache.
      */
-    open func fetch(id: DeviceData.ID) throws -> DeviceData {
+    open func fetch(id: DeviceData.ID) async throws -> DeviceData {
         try cache.resolve(id, as: DeviceData.self)
     }
 
@@ -139,10 +141,7 @@ open class DataStore<DataLoader: DataLoading>: ConsumingObservableObject, DataSt
      */
     open func load() async throws {
         let loadedData: [DeviceData] = try await loader.load()
-        
-        try await MainActor.run {
-            try store(data: loadedData)
-        }
+        try await store(data: loadedData)
     }
 
     /**
@@ -157,10 +156,7 @@ open class DataStore<DataLoader: DataLoading>: ConsumingObservableObject, DataSt
     */
     open func load(id: DeviceData.ID) async throws {
         let loadedData: DeviceData = try await loader.load(id: id)
-
-        try await MainActor.run {
-            try store(data: [loadedData])
-        }
+        try await store(data: [loadedData])
     }
 }
 

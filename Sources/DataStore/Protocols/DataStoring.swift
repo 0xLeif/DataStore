@@ -8,24 +8,24 @@ public protocol DataStoring {
 
     /// Stores an array of `DeviceData` objects.
     /// - Parameter data: The data to store or update.
-    func store(data: [DeviceData]) throws
+    func store(data: [DeviceData]) async throws
 
     /// Deletes an array of `DeviceData` objects based on their identifiers.
     /// - Parameter data: The identifiers of the data to delete.
-    func delete(data: [DeviceData.ID]) throws
+    func delete(data: [DeviceData.ID]) async throws
 
     /// Fetches all stored `DeviceData` objects.
     /// - Returns: An array of fetched device-specific data.
-    func fetch() -> [DeviceData]
+    func fetch() async -> [DeviceData]
 
     /// Fetches stored `DeviceData` objects that satisfy the given filter predicate.
     /// - Parameter where: A closure that takes a `DeviceData` object and returns a Boolean value indicating whether the object should be included in the result.
     /// - Returns: An array of fetched device-specific data that pass the filter.
-    func fetch(where filter: (DeviceData) -> Bool) -> [DeviceData]
+    func fetch(where filter: (DeviceData) -> Bool) async -> [DeviceData]
 
     /// Fetches a single stored `DeviceData` object based on its identifier.
     /// - Parameter id: The identifier of the data to fetch.
     /// - Returns: The fetched device-specific data.
     /// - Throws: An error if the data could not be found.
-    func fetch(id: DeviceData.ID) throws -> DeviceData
+    func fetch(id: DeviceData.ID) async throws -> DeviceData
 }
